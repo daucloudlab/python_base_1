@@ -1,3 +1,4 @@
+"""
 # Context Manager-дің жұмысына мысал
 with open('hello.txt', 'w') as f:
     f.write("Hello Python")
@@ -42,3 +43,27 @@ def managed_file(name):
 with managed_file('hello.txt') as f:
     f.write("Hello Python4!")
     f.write("Hello World!")
+"""
+
+class Indenter:
+    def __init__(self):
+        self.internal_text = ""
+
+    def printm(self, text):
+        print(self.internal_text + text)
+
+    def __enter__(self):
+        self.internal_text += "\t"
+        return self
+
+    def __exit__(self, ex_type, ex_val, ex_v):
+        self.internal_text = ""
+
+with Indenter() as indent:
+    indent.printm("Hello!")
+    with indent:
+        indent.printm("Salem")
+        with indent:
+            indent.printm("Привет")
+    with indent:
+        indent.printm("Hey!")
